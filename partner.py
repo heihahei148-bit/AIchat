@@ -130,11 +130,17 @@ def render_sidebar() -> None:
     with st.sidebar:
         st.subheader("会话控制面板")
 
-        if st.button("新建会话", width="stretch", icon="🔄"):
+        has_messages = bool(st.session_state["messages"])
+        if st.button(
+            "新建会话",
+            width="stretch",
+            icon="🔄",
+            disabled=not has_messages,
+            help="当前会话有聊天内容后才能新建会话。",
+        ):
             save_session()
             st.session_state["messages"] = []
             st.session_state["current_session"] = create_session_name()
-            save_session()
             st.rerun()
 
         st.text("历史会话")
